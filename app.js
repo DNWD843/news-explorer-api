@@ -2,6 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const { errors } = require('celebrate');
 const handleErrors = require('./middlewares/handleErrors');
 const rootRouter = require('./routes/root');
 
@@ -11,6 +12,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(rootRouter);
+app.use(errors());
 app.use(handleErrors);
 
 mongoose.connect(TO_NEWS_EXPLORER_DB, {
