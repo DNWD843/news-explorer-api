@@ -5,10 +5,9 @@ const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
 const ConflictError = require('../errors/conflict-error');
 const UnauthorizedError = require('../errors/unauthorized-error');
+const { SALT_ROUND, JWT_MAX_AGE } = require('../configs/index');
 
-const {
-  NODE_ENV = 'develop', JWT_SECRET, SALT_ROUND, JWT_MAX_AGE,
-} = process.env;
+const { NODE_ENV = 'develop', JWT_SECRET } = process.env;
 
 const getUserData = (req, res, next) => {
   User.findById(req.user._id)
@@ -31,7 +30,7 @@ const handleRegister = (req, res, next) => {
   const { email, password, name } = req.body;
   bcrypt.hash(password, SALT_ROUND)
     .then((hash) => User.create({ email, password: hash, name })
-      .then((user) => res.status(200).send(user))
+      .then((user) => res.status(200).send({ message: `Поздравляем, ${user.name}! Вы успешно зарегистрировались!` }))
       .catch((err) => {
         if (err.name === 'ValidationError') {
           const error = new BadRequestError('Переданы некорректные данные');
