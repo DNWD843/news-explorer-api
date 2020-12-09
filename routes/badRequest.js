@@ -1,8 +1,8 @@
-class BadRequestError extends Error {
-  constructor(message) {
-    super(message);
-    this.statusCode = 400;
-  }
-}
+const router = require('express').Router();
+const NotFoundError = require('../errors/not-found-error');
 
-module.exports = BadRequestError;
+router.use(() => {
+  throw new NotFoundError('Неверный запрос');
+});
+
+module.exports = router;
