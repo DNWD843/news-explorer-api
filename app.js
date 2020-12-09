@@ -10,16 +10,6 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// TODO: удалить замоканного юзера
-app.use((req, res, next) => {
-  req.user = {
-    // _id: '5fd0c7698dd7acc09812a43d',
-    _id: '5fd0c60fe6b828bf9ffea750',
-  };
-  next();
-});
-
 app.use(rootRouter);
 app.use(handleErrors);
 
