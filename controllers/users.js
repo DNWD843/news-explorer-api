@@ -79,8 +79,8 @@ const handleRegister = (req, res, next) => {
  * Принимает в теле запроса емэйл и пароль. Проверяет учетные данные пользователя.
  *  Если пользователь найден в базе - возвращает токен.
  * Обрабатывает запрос POST /signin
- * @property {String} req.email - емэйл пользователя
- * @property {String} req.password - пароль пользователя
+ * @property {String} req.body.email - емэйл пользователя
+ * @property {String} req.body.password - пароль пользователя
  * @returns {Object} token
  * @since v.1.0.0
  */

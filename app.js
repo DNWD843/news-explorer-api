@@ -31,8 +31,4 @@ mongoose.connect(TO_NEWS_EXPLORER_DB, {
   useUnifiedTopology: true,
 });
 
-app.listen(PORT, () => {
-  // TODO удалить console.log перед сдачей
-  // eslint-disable-next-line
-  console.log(`App listening on port ${PORT}`);
-});
+app.listen(PORT);

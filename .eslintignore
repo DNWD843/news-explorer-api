@@ -1,5 +1,7 @@
-node_modules
-public
-data
-documentation
+node_modules/*
+public/*
+data/*
+documentation/*
 *.md
+logs/*
+docker/*
