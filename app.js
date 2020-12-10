@@ -3,6 +3,7 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const handleErrors = require('./middlewares/handleErrors');
 const rootRouter = require('./routes/root');
 
@@ -11,7 +12,9 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(requestLogger);
 app.use(rootRouter);
+app.use(errorLogger);
 app.use(errors());
 app.use(handleErrors);
 
