@@ -8,6 +8,12 @@ const handleErrors = require('./middlewares/handleErrors');
 const rootRouter = require('./routes/root');
 
 const { PORT = 3000, TO_NEWS_EXPLORER_DB } = process.env;
+
+/**
+ * @module app
+ * @description Точка входа бэкенда, express-сервер.
+ * @since v.1.0.0
+ */
 const app = express();
 
 app.use(bodyParser.json());

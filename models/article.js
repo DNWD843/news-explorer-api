@@ -1,8 +1,20 @@
 const mongoose = require('mongoose');
 const isURL = require('validator/lib/isURL');
-const NotFoundError = require('../errors/not-found-error');
-const BadRequestError = require('../errors/bad-request-error');
 
+/**
+ * @module
+ * @description Схема статьи - article
+ * @param {String} keyword — ключевое слово, по которому ищутся статьи. Обязательное поле - строка.
+ * @param {String} title — заголовок статьи. Обязательное поле - строка.
+ * @param {String}text — текст статьи. Обязательное поле - строка.
+ * @param {String} date — дата статьи. Обязательное поле - строка.
+ * @param {String} source — источник статьи. Обязательное поле - строка.
+ * @param {String} link — ссылка на статью. Обязательное поле - строка, URL-адрес.
+ * @param {String} image — ссылка на иллюстрацию к статье. Обязательное поле - строка, URL-адресом.
+ * @param {String} owner — _id пользователя, сохранившего статью. По умолчанию,
+ *  база данных не возвращает это поле.
+ * @since v.1.0.0
+ */
 const articleSchema = new mongoose.Schema({
   keyword: {
     type: String,
@@ -45,25 +57,5 @@ const articleSchema = new mongoose.Schema({
     select: false,
   },
 });
-
-articleSchema.statics.findArticleByCredentials = function fn(id) {
-  return this.findById(id)
-    .select('+owner')
-    .then((article) => {
-      if (!article) {
-        throw new NotFoundError('Статья не найдена или уже удалена');
-      }
-      return article;
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return Promise.reject(new BadRequestError('Передан невалидный id'));
-      }
-      if (err.statusCode === 404) {
-        return Promise.reject(err);
-      }
-      return Promise.reject(new Error(err.message));
-    });
-};
 
 module.exports = mongoose.model('article', articleSchema);

@@ -9,6 +9,23 @@ const { SALT_ROUND, JWT_MAX_AGE } = require('../configs/index');
 
 const { NODE_ENV = 'develop', JWT_SECRET } = process.env;
 
+/**
+ * @module
+ * @description Контроллеры модели User.<br>
+ * Обрабатывают запросы:<br>
+ *  - GET /users/me - возвращает данные авторизованного пользователя<br>
+ *  - POST /signup - создает (регистрирует) нового пользователя<br>
+ *  - POST /signin — авторизует пользователя<br>
+ * @since v.1.0.0
+ */
+
+/**
+ * @description Контроллер getUserData()<br>
+ * Получает и возвращает данные авторизованного пользователя.<br>
+ * Обрабатывает запрос GET /users/me
+ * @returns {JSON} данные пользователя
+ * @since v.1.0.0
+ */
 const getUserData = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
@@ -26,6 +43,19 @@ const getUserData = (req, res, next) => {
     });
 };
 
+/**
+ * @description Контроллер handleRegister()<br>
+ * Создает нового пользователя, в ответ отправляет сообщение об успешной регистрации<br>
+ * Принимает параметры из тела запроса: { email, password, name }<br>
+ * Обрабатываeт запрос POST /signup
+ * @property {String} req.body.email - емэйл пользователя
+ * @property {String} req.body.password - пароль пользователя
+ * @property {String} req.body.name - имя пользователя
+ * @returns {Object} message
+ * @since v.1.0.0
+ * @instance
+ * @public
+ */
 const handleRegister = (req, res, next) => {
   const { email, password, name } = req.body;
   bcrypt.hash(password, SALT_ROUND)
@@ -43,6 +73,17 @@ const handleRegister = (req, res, next) => {
         return next(err);
       }));
 };
+
+/**
+ * @description Контроллер handleLogin()<br>
+ * Принимает в теле запроса емэйл и пароль. Проверяет учетные данные пользователя.
+ *  Если пользователь найден в базе - возвращает токен.
+ * Обрабатывает запрос POST /signin
+ * @property {String} req.email - емэйл пользователя
+ * @property {String} req.password - пароль пользователя
+ * @returns {Object} token
+ * @since v.1.0.0
+ */
 const handleLogin = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)

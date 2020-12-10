@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "jsdoc:build": "jsdoc ./app.js ./controllers ./middlewares ./models ./README.md -d ./documentation",
+    "jsdoc:npx": "npx jsdoc ./app.js ./controllers ./middlewares ./models ./README.md -d ./documentation"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,18 @@
 const { celebrate, Joi } = require('celebrate');
 
+/**
+ * @module
+ * @description Миддлвэры валидации данных в запросах, касающихся действий со статьями
+ *  пользователя<br>
+ * Валидация выполняется библиотеками celebrate и Joi.
+ * @since v.1.0.0
+ */
+
+/**
+ * @description Миддлвэр createArticleReqValidator.<br>
+ * Валидирует данные в запросе на создание статьи.
+ * @since v.1.0.0
+ */
 const createArticleReqValidator = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string()
@@ -21,6 +34,11 @@ const createArticleReqValidator = celebrate({
   }),
 });
 
+/**
+ * @description Миддлвэр deleteArticleReqValidator.<br>
+ * Валидирует данные в запросе на удаление статьи.
+ * @since v.1.0.0
+ */
 const deleteArticleReqValidator = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string()
@@ -32,6 +50,11 @@ const deleteArticleReqValidator = celebrate({
   }),
 });
 
+/**
+ * @description Миддлвэр getArticlesReqValidator.<br>
+ * Валидирует данные в запросе на получение всех статей пользователя.
+ * @since v.1.0.0
+ */
 const getArticlesReqValidator = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string()

@@ -1,5 +1,18 @@
 const { celebrate, Joi } = require('celebrate');
 
+/**
+ * @module
+ * @description Миддлвэры валидации данных в запросах, касающихся действий с данными
+ *  пользователя<br>
+ * Валидация выполняется библиотеками celebrate и Joi.
+ * @since v.1.0.0
+ */
+
+/**
+ * @description Миддлвэр handleRegisterReqValidator.<br>
+ * Валидирует данные в запросе на создание (регистрацию) пользователя.
+ * @since v.1.0.0
+ */
 const handleRegisterReqValidator = celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
@@ -8,6 +21,11 @@ const handleRegisterReqValidator = celebrate({
   }),
 });
 
+/**
+ * @description Миддлвэр handleLoginReqValidator.<br>
+ * Валидирует данные в запросе на авторизацию (вход) пользователя.
+ * @since v.1.0.0
+ */
 const handleLoginReqValidator = celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
@@ -15,6 +33,11 @@ const handleLoginReqValidator = celebrate({
   }),
 });
 
+/**
+ * @description Миддлвэр getUserDataReqValidator.<br>
+ * Валидирует данные в запросе на получение данных авторизованного пользователя из БД.
+ * @since v.1.0.0
+ */
 const getUserDataReqValidator = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string()
