@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../errors/unauthorized-error');
-
-const { NODE_ENV = 'develop', JWT_SECRET } = process.env;
+const { JWT_SECRET_DEV } = require('../configs/index');
 
 /**
  * @module
@@ -11,9 +10,9 @@ const { NODE_ENV = 'develop', JWT_SECRET } = process.env;
  * @since v.1.0.0
  */
 const authorizationCheck = (req, res, next) => {
-  const secret = NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret';
   const { authorization } = req.headers;
-
+  const { NODE_ENV = 'develop', JWT_SECRET } = process.env;
+  const secret = NODE_ENV === 'production' ? JWT_SECRET : JWT_SECRET_DEV;
   if (!authorization || !authorization.startsWith('Bearer ')) {
     const error = new UnauthorizedError('Необходима авторизация');
     return next(error);

@@ -5,9 +5,10 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const handleErrors = require('./middlewares/handleErrors');
-const rootRouter = require('./routes/root');
+const rootRouter = require('./routes');
+const { TO_MONGODB_DEV } = require('./configs/index');
 
-const { PORT = 3000, TO_NEWS_EXPLORER_DB } = process.env;
+const { PORT = 3000, TO_NEWS_EXPLORER_DB, NODE_ENV = 'develop' } = process.env;
 
 /**
  * @module app
@@ -24,7 +25,7 @@ app.use(errorLogger);
 app.use(errors());
 app.use(handleErrors);
 
-mongoose.connect(TO_NEWS_EXPLORER_DB, {
+mongoose.connect(NODE_ENV === 'production' ? TO_NEWS_EXPLORER_DB : TO_MONGODB_DEV, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,

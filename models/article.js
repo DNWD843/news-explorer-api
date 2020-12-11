@@ -6,7 +6,7 @@ const isURL = require('validator/lib/isURL');
  * @description Схема статьи - article
  * @param {String} keyword — ключевое слово, по которому ищутся статьи. Обязательное поле - строка.
  * @param {String} title — заголовок статьи. Обязательное поле - строка.
- * @param {String}text — текст статьи. Обязательное поле - строка.
+ * @param {String} text — текст статьи. Обязательное поле - строка.
  * @param {String} date — дата статьи. Обязательное поле - строка.
  * @param {String} source — источник статьи. Обязательное поле - строка.
  * @param {String} link — ссылка на статью. Обязательное поле - строка, URL-адрес.

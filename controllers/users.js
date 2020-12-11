@@ -5,9 +5,7 @@ const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
 const ConflictError = require('../errors/conflict-error');
 const UnauthorizedError = require('../errors/unauthorized-error');
-const { SALT_ROUND, JWT_MAX_AGE } = require('../configs/index');
-
-const { NODE_ENV = 'develop', JWT_SECRET } = process.env;
+const { SALT_ROUND, JWT_MAX_AGE, JWT_SECRET_DEV } = require('../configs/index');
 
 /**
  * @module
@@ -88,7 +86,8 @@ const handleLogin = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const secret = NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret';
+      const { NODE_ENV = 'develop', JWT_SECRET } = process.env;
+      const secret = NODE_ENV === 'production' ? JWT_SECRET : JWT_SECRET_DEV;
       const token = jwt.sign({ _id: user._id }, secret, { expiresIn: JWT_MAX_AGE });
       return res.status(200).send({ token });
     })
