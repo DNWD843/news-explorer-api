@@ -90,8 +90,8 @@ const deleteArticle = ((req, res, next) => Article.findById(req.params.articleId
     if (article.owner !== req.user._id) {
       throw new ForbiddenError('Невозможно удалить чужую статью!');
     }
-    article.remove();
-    return res.status(200).send({ message: `Статья '${article.title}' успешно удалена` });
+    return article.remove()
+      .then(() => res.send({ message: `Статья '${article.title}' успешно удалена` }));
   })
   .catch((err) => {
     if (err.name === 'CastError') {

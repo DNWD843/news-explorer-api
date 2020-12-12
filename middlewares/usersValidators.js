@@ -16,7 +16,7 @@ const { celebrate, Joi } = require('celebrate');
 const handleRegisterReqValidator = celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
-    password: Joi.string().alphanum().min(3).required(),
+    password: Joi.string().required(),
     name: Joi.string().min(2).max(30).required(),
   }),
 });
@@ -29,25 +29,11 @@ const handleRegisterReqValidator = celebrate({
 const handleLoginReqValidator = celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
-    password: Joi.string().alphanum().min(3).required(),
+    password: Joi.string().required(),
   }),
-});
-
-/**
- * @description Миддлвэр getUserDataReqValidator.<br>
- * Валидирует данные в запросе на получение данных авторизованного пользователя из БД.
- * @since v.1.0.0
- */
-const getUserDataReqValidator = celebrate({
-  headers: Joi.object().keys({
-    authorization: Joi.string()
-      .pattern(/^Bearer.[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/)
-      .required(),
-  }).unknown(true),
 });
 
 module.exports = {
   handleRegisterReqValidator,
   handleLoginReqValidator,
-  getUserDataReqValidator,
 };

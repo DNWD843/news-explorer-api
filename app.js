@@ -20,10 +20,10 @@ const { PORT = 3000, TO_NEWS_EXPLORER_DB, NODE_ENV = 'develop' } = process.env;
 const app = express();
 
 app.use(helmet());
-app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
+app.use(limiter);
 app.use(rootRouter);
 app.use(errorLogger);
 app.use(errors());

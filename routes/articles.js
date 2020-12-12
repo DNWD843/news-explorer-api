@@ -2,11 +2,9 @@ const router = require('express').Router();
 
 const { getArticles, createArticle, deleteArticle } = require('../controllers/articles');
 
-const {
-  getArticlesReqValidator, createArticleReqValidator, deleteArticleReqValidator,
-} = require('../middlewares/articlesValidators');
+const { createArticleReqValidator, deleteArticleReqValidator } = require('../middlewares/articlesValidators');
 
-router.get('/', getArticlesReqValidator, getArticles);
+router.get('/', getArticles);
 router.post('/', createArticleReqValidator, createArticle);
 router.delete('/:articleId', deleteArticleReqValidator, deleteArticle);
 

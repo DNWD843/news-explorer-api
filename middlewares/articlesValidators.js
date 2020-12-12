@@ -14,11 +14,6 @@ const { celebrate, Joi } = require('celebrate');
  * @since v.1.0.0
  */
 const createArticleReqValidator = celebrate({
-  headers: Joi.object().keys({
-    authorization: Joi.string()
-      .pattern(/^Bearer.[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/)
-      .required(),
-  }).unknown(true),
   body: Joi.object().keys({
     keyword: Joi.string().required(),
     title: Joi.string().required(),
@@ -40,31 +35,12 @@ const createArticleReqValidator = celebrate({
  * @since v.1.0.0
  */
 const deleteArticleReqValidator = celebrate({
-  headers: Joi.object().keys({
-    authorization: Joi.string()
-      .pattern(/^Bearer.[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/)
-      .required(),
-  }).unknown(true),
   params: Joi.object().keys({
     articleId: Joi.string().hex().required(),
   }),
 });
 
-/**
- * @description Миддлвэр getArticlesReqValidator.<br>
- * Валидирует данные в запросе на получение всех статей пользователя.
- * @since v.1.0.0
- */
-const getArticlesReqValidator = celebrate({
-  headers: Joi.object().keys({
-    authorization: Joi.string()
-      .pattern(/^Bearer.[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/)
-      .required(),
-  }).unknown(true),
-});
-
 module.exports = {
   createArticleReqValidator,
   deleteArticleReqValidator,
-  getArticlesReqValidator,
 };
