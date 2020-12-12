@@ -6,6 +6,8 @@ const BadRequestError = require('../errors/bad-request-error');
 const ConflictError = require('../errors/conflict-error');
 const UnauthorizedError = require('../errors/unauthorized-error');
 const { SALT_ROUND, JWT_MAX_AGE, JWT_SECRET_DEV } = require('../configs/index');
+const { userNotFoundMessage, invalidRequestDataMessage, existingUserMessage } = require('../constants/errorMessages');
+const { registrationSuccessMessage } = require('../constants/responseMessages');
 
 /**
  * @module
@@ -28,13 +30,13 @@ const getUserData = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь не найден или не существует');
+        throw new NotFoundError(userNotFoundMessage);
       }
       return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        const error = new BadRequestError('Переданы некорректные данные');
+        const error = new BadRequestError(invalidRequestDataMessage);
         return next(error);
       }
       return next(err);
@@ -58,14 +60,14 @@ const handleRegister = (req, res, next) => {
   const { email, password, name } = req.body;
   bcrypt.hash(password, SALT_ROUND)
     .then((hash) => User.create({ email, password: hash, name })
-      .then((user) => res.status(200).send({ message: `Поздравляем, ${user.name}! Вы успешно зарегистрировались!` }))
+      .then(() => res.status(200).send({ message: registrationSuccessMessage }))
       .catch((err) => {
         if (err.name === 'ValidationError') {
-          const error = new BadRequestError('Переданы некорректные данные');
+          const error = new BadRequestError(invalidRequestDataMessage);
           return next(error);
         }
         if (err.name === 'MongoError') {
-          const error = new ConflictError('Пользователь с такими данными уже зарегистрирован');
+          const error = new ConflictError(existingUserMessage);
           return next(error);
         }
         return next(err);

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const isURL = require('validator/lib/isURL');
+const { invalidArticleLinkMessage } = require('../constants/errorMessages');
 
 /**
  * @module
@@ -41,7 +42,7 @@ const articleSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isURL(v),
-      message: 'Введена некорректная ссылка',
+      message: invalidArticleLinkMessage,
     },
   },
   image: {
@@ -49,7 +50,7 @@ const articleSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isURL(v),
-      message: 'Введена некорректная ссылка',
+      message: invalidArticleLinkMessage,
     },
   },
   owner: {

@@ -2,6 +2,14 @@ const Article = require('../models/article');
 const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
 const ForbiddenError = require('../errors/forbidden-error');
+const {
+  articlesNotFoundMessage,
+  articleNotFoundMessage,
+  articleDeletionBanMessage,
+  invalidIdMessage,
+  invalidRequestDataMessage,
+} = require('../constants/errorMessages.js');
+const { articleCreationSuccessMessage, articleDeletionSuccessMessage } = require('../constants/responseMessages');
 
 /**
  * @module
@@ -26,7 +34,7 @@ const getArticles = (req, res, next) => {
   Article.find({ owner: req.user._id })
     .then((articles) => {
       if (!articles) {
-        throw new NotFoundError('Статьи не найдены или не существуют');
+        throw new NotFoundError(articlesNotFoundMessage);
       }
       return res.status(200).send(articles);
     })
@@ -62,10 +70,10 @@ const createArticle = (req, res, next) => {
   Article.create({
     keyword, title, text, date, source, link, image, owner: req.user._id,
   })
-    .then((article) => res.status(200).send({ message: `Статья '${article.title}' успешно сохранена!` }))
+    .then(() => res.status(200).send({ message: articleCreationSuccessMessage }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        const error = new BadRequestError('Переданы некорректные данные');
+        const error = new BadRequestError(invalidRequestDataMessage);
         return next(error);
       }
       return next(err);
@@ -85,17 +93,17 @@ const deleteArticle = ((req, res, next) => Article.findById(req.params.articleId
   .select('+owner')
   .then((article) => {
     if (!article) {
-      throw new NotFoundError('Статья не найдена или уже удалена');
+      throw new NotFoundError(articleNotFoundMessage);
     }
     if (article.owner !== req.user._id) {
-      throw new ForbiddenError('Невозможно удалить чужую статью!');
+      throw new ForbiddenError(articleDeletionBanMessage);
     }
     return article.remove()
-      .then(() => res.send({ message: `Статья '${article.title}' успешно удалена` }));
+      .then(() => res.send({ message: articleDeletionSuccessMessage }));
   })
   .catch((err) => {
     if (err.name === 'CastError') {
-      const error = new BadRequestError('Передан невалидный id');
+      const error = new BadRequestError(invalidIdMessage);
       return next(error);
     }
     return next(err);
