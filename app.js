@@ -19,8 +19,10 @@ const { PORT = 5000, TO_NEWS_EXPLORER_DB, NODE_ENV = 'develop' } = process.env;
  * @since v.1.0.0
  */
 const app = express();
-
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3000',
+};
+app.use(cors(corsOptions));
 
 app.use(helmet());
 app.use(bodyParser.json());
