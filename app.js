@@ -11,7 +11,7 @@ const handleErrors = require('./middlewares/handleErrors');
 const rootRouter = require('./routes');
 const { TO_MONGODB_DEV } = require('./configs/index');
 
-const { PORT = 5000, TO_NEWS_EXPLORER_DB, NODE_ENV = 'develop' } = process.env;
+const { PORT = 4000, TO_NEWS_EXPLORER_DB, NODE_ENV = 'develop' } = process.env;
 
 /**
  * @module app
@@ -19,10 +19,8 @@ const { PORT = 5000, TO_NEWS_EXPLORER_DB, NODE_ENV = 'develop' } = process.env;
  * @since v.1.0.0
  */
 const app = express();
-const corsOptions = {
-  origin: 'http://localhost:3000',
-};
-app.use(cors(corsOptions));
+
+app.use(cors());
 
 app.use(helmet());
 app.use(bodyParser.json());
