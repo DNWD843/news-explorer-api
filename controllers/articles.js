@@ -9,7 +9,10 @@ const {
   invalidIdMessage,
   invalidRequestDataMessage,
 } = require('../constants/errorMessages.js');
-const { articleCreationSuccessMessage, articleDeletionSuccessMessage } = require('../constants/responseMessages');
+const {
+  // articleCreationSuccessMessage,
+  articleDeletionSuccessMessage,
+} = require('../constants/responseMessages');
 
 /**
  * @module
@@ -68,9 +71,19 @@ const createArticle = (req, res, next) => {
    * @ignore
    */
   Article.create({
-    keyword, title, text, date, source, link, image, owner: req.user._id,
+    keyword,
+    title,
+    text,
+    date,
+    source,
+    link,
+    image,
+    owner: req.user._id,
   })
-    .then(() => res.status(200).send({ message: articleCreationSuccessMessage }))
+    .then((card) => {
+      const { owner, ...restCard } = card.toObject();
+      return res.status(200).send(restCard);
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         const error = new BadRequestError(invalidRequestDataMessage);
@@ -89,7 +102,7 @@ const createArticle = (req, res, next) => {
  * @instance
  * @public
  */
-const deleteArticle = ((req, res, next) => Article.findById(req.params.articleId)
+const deleteArticle = (req, res, next) => Article.findById(req.params.articleId)
   .select('+owner')
   .then((article) => {
     if (!article) {
@@ -98,7 +111,8 @@ const deleteArticle = ((req, res, next) => Article.findById(req.params.articleId
     if (article.owner !== req.user._id) {
       throw new ForbiddenError(articleDeletionBanMessage);
     }
-    return article.remove()
+    return article
+      .remove()
       .then(() => res.send({ message: articleDeletionSuccessMessage }));
   })
   .catch((err) => {
@@ -107,7 +121,7 @@ const deleteArticle = ((req, res, next) => Article.findById(req.params.articleId
       return next(error);
     }
     return next(err);
-  }));
+  });
 
 module.exports = {
   getArticles,
