@@ -21,10 +21,14 @@ const createArticleReqValidator = celebrate({
     date: Joi.string().required(),
     source: Joi.string().required(),
     link: Joi.string()
-      .pattern(/^https?:\/\/(www\.)?[\w\-.]+\.[a-z]{2,3}\b[\w/\-?=&$%]*(\.[a-z]{3})?#?$/i)
+      .pattern(
+        /^https?:\/\/(www\.)?[\w\-.]+\.[a-z]{2,3}\b[\w/\-?=&$%.]*(\.[a-z]{3})?#?$/i,
+      )
       .required(),
     image: Joi.string()
-      .pattern(/^https?:\/\/(www\.)?[\w\-.]+\.[a-z]{2,3}\b[\w/\-?=&$%]*(\.[a-z]{3})?#?$/i)
+      .pattern(
+        /^https?:\/\/(www\.)?[\w\-.]+\.[a-z]{2,3}\b[\w/\-?=&$%.]*(\.[a-z]{3})?#?$/i,
+      )
       .required(),
   }),
 });
