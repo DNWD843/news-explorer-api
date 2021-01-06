@@ -22,13 +22,13 @@ const createArticleReqValidator = celebrate({
     source: Joi.string().required(),
     link: Joi.string()
       .pattern(
-        /^https?:\/\/(www\.)?[\w\-.]+\.[a-z]{2,3}\b[\w/\-?=&$%.:;_]*(\.[a-z]{3})?#?$/i,
+        /^https?:\/\/(www\.)?[\w\-.]+\.[a-z]{2,3}\b[\w/\-?=&$%.:;_]*(\.[a-z]{2,3})?#?$/i,
       )
       .required()
       .error(new Error('Передана некорректная ссылка')),
     image: Joi.string()
       .pattern(
-        /^https?:\/\/(www\.)?[\w\-.]+\.[a-z]{2,3}\b[\w/\-?=&$%.:;_]*(\.[a-z]{3})?#?$/i,
+        /^https?:\/\/(www\.)?[\w\-.]+\.[a-z]{2,3}\b[\w/\-?=&$%.:;_]*(\.[a-z]{3,4})?#?$/i,
       )
       .required()
       .error(new Error('Передана некорректная ссылка на изображение')),
