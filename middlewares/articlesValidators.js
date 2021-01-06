@@ -24,14 +24,12 @@ const createArticleReqValidator = celebrate({
       .pattern(
         /^https?:\/\/(www\.)?[\w\-.]+\.[a-z]{2,3}\b[\w/\-?=&$%.:;_]*(\.[a-z]{2,3})?#?$/i,
       )
-      .required()
-      .error(new Error('Передана некорректная ссылка')),
+      .required(),
     image: Joi.string()
       .pattern(
         /^https?:\/\/(www\.)?[\w\-.]+\.[a-z]{2,3}\b[\w/\-?=&$%.:;_]*(\.[a-z]{3,4})?#?$/i,
       )
-      .required()
-      .error(new Error('Передана некорректная ссылка на изображение')),
+      .required(),
   }),
 });
 
