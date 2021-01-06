@@ -5,7 +5,6 @@ const { serverErrorMessage } = require('../constants/errorMessages');
  * @description Централизованный обработчик ошибок.<br>
  * @since v.1.0.0
  */
-
 const handleErrors = (err, req, res, next) => {
   const { statusCode = 500, message } = err;
   res.status(statusCode).send({
