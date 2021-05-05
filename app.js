@@ -11,7 +11,7 @@ const handleErrors = require('./middlewares/handleErrors');
 const rootRouter = require('./routes');
 const { TO_MONGODB_DEV } = require('./configs/index');
 
-const { PORT = 4000, TO_NEWS_EXPLORER_DB, NODE_ENV = 'develop' } = process.env;
+const { PORT = 4500, TO_NEWS_EXPLORER_DB, NODE_ENV = 'develop' } = process.env;
 
 /**
  * @module app
