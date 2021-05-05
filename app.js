@@ -40,6 +40,14 @@ mongoose.connect(
     useFindAndModify: false,
     useUnifiedTopology: true,
   },
-);
+).then(() => {
+  app.listen(PORT, () => {
+    // eslint-disable-next-line
+    console.log(`App listening on port ${PORT}`);
+  });
+}).catch((err) => {
+  // eslint-disable-next-line
+  console.error(`Can't start app ${err.toString()}`);
+});
 
-app.listen(PORT);
+// app.listen(PORT);
